@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/accion_info_gral"
+            android:icon="@drawable/ic_accion_info"
+            android:title="@string/item_informacion"/>
+        <item
+            android:id="@+id/accion_velocimetro"
+            android:icon="@drawable/ic_accion_tacometro"
+            android:title="@string/item_graficas" />
+        <item
+            android:id="@+id/accion_comandos"
+            android:icon="@drawable/ic_accion_engine"
+            android:title="@string/item_comando" />
+        <item
+            android:id="@+id/accion_mapa"
+            android:icon="@drawable/ic_accion_mapa"
+            android:title="@string/item_mapas" />
+    </group>
+
+    <item android:title="Configuraciones">
+        <menu>
+            <item
+                android:id="@+id/accion_buscar"
+                android:icon="@drawable/ic_accion_buscar"
+                android:title="Seleccionar dispositivo"/>
+            <item
+                android:id="@+id/accion_encender"
+                android:icon="@drawable/ic_accion_bluetooth_off"
+                android:title="Encender/Apagar" />
+            <item android:id="@+id/accion_herramientas"
+                android:icon="@drawable/ic_accion_configuraciones"
+                android:title="Herramientas"/>
+        </menu>
+    </item>
+
+</menu>

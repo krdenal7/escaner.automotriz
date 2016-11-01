@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:weightSum="1">
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0"
+            android:id="@+id/txtRPM"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorLetraAzul"
+            android:textSize="90dp"
+            android:layout_weight="2"
+            android:gravity="right" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="RPM"
+            android:id="@+id/txtTitleRpm"
+            android:textColor="@color/colorLetraAzul"
+            android:layout_marginLeft="10dp"
+            android:textSize="40dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+    <com.kds.elm.escanerautomotriz.CustomViews.VelocimetroLinear
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/VelocimetroRPM" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <android.support.v7.widget.CardView
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            style="@style/CardViewStyle1"
+            android:layout_columnSpan="2"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VELOCIDAD"
+                    android:id="@+id/txtTitVelocidad"
+                    android:textColor="#fff"
+                    android:textSize="18dp"
+                    android:layout_weight="5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="2dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtVelocidad"
+                    android:text="0"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:textColor="#fff" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KM/h"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.2"
+                    android:gravity="right"
+                    android:textColor="#fff"
+                    android:layout_marginRight="5dp" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="2">
+
+            <android.support.v7.widget.CardView
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_height="50dp"
+                style="@style/CardViewStyle1"
+                android:layout_columnWeight=".5"
+                android:layout_width="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="GASOLINA"
+                            android:textColor="#fff"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="2dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Información no disponible"
+                            android:textColor="#fff"
+                            android:layout_marginLeft="5dp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <com.kds.elm.escanerautomotriz.CustomViews.ViewGasolina
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="2dp"
+                        android:id="@+id/cvGasolina" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_column="1"
+                android:layout_row="1"
+                android:layout_height="50dp"
+                style="@style/CardViewStyle1"
+                android:layout_columnWeight=".5"
+                android:layout_width="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Temperatura"
+                        android:layout_weight="1"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="5dp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imgTermometro"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_termometro_frio"
+                        android:padding="5dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                style="@style/CardViewStyle1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Km/h recorridos"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="5dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:textColor="#fff"
+                        android:id="@+id/txtKMrecorridos"
+                        android:gravity="bottom|right"
+                        android:layout_marginRight="5dp" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                style="@style/CardViewStyle1"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Tiempo en movimiento"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="5dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:textColor="#fff"
+                        android:id="@+id/txtTiempoMovimiento"
+                        android:gravity="bottom|right"
+                        android:layout_marginRight="5dp" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

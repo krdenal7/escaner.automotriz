@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Escaner</string>
+    <string name="title_activity_menu_drawer">MenuDrawer</string>
+    <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="navigation_drawer_close">Cerrar menu</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_dispositivos">Dispositivos</string>
+    <string name="error_connect_device">No se pudo conectar al dispositivo.</string>
+    <string name="device_connected">Dispositivo conectado correctamente</string>
+    <string name="Titulo">Titulo</string>
+    <string name="label_menu">Escaner automotriz</string>
+
+    <!--MENU-->
+    <string name="item_informacion">Información general</string>
+    <string name="item_graficas">Gráficas</string>
+    <string name="item_mapas">Mápa</string>
+    <string name="item_comando">Comandos</string>
+
+    <string name="Aviso">Aviso</string>
+    <string name="mensaje_salir">¿Desea salir de la aplicación?</string>
+</resources>
