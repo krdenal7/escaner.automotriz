@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,9 +22,9 @@ public class DialogAlert extends DialogFragment implements View.OnClickListener 
 
     private TextView txtTitulo;
     private TextView txtMensaje;
-    private TextView txtBtnCancelar;
-    private TextView txtBtnNo;
-    private TextView txtBtnSi;
+    private AppCompatButton txtBtnCancelar;
+    private AppCompatButton txtBtnNo;
+    private AppCompatButton txtBtnSi;
 
     private String titulo, mensaje, btn1, btn2, btn3;
 
@@ -75,9 +76,9 @@ public class DialogAlert extends DialogFragment implements View.OnClickListener 
     private void InitViews(View view) {
         txtTitulo = (TextView) view.findViewById(R.id.txtTitulo);
         txtMensaje = (TextView) view.findViewById(R.id.txtMensaje);
-        txtBtnCancelar = (TextView) view.findViewById(R.id.btnCancelar);
-        txtBtnNo = (TextView) view.findViewById(R.id.btnNo);
-        txtBtnSi = (TextView) view.findViewById(R.id.btnSi);
+        txtBtnCancelar = (AppCompatButton) view.findViewById(R.id.btnCancelar);
+        txtBtnNo = (AppCompatButton) view.findViewById(R.id.btnNo);
+        txtBtnSi = (AppCompatButton) view.findViewById(R.id.btnSi);
     }
 
     private void ConfigViews() {

@@ -9,13 +9,18 @@
     <string name="device_connected">Dispositivo conectado correctamente</string>
     <string name="Titulo">Titulo</string>
     <string name="label_menu">Escaner automotriz</string>
+    <string name="imgDescripcion">Descripcion</string>
 
     <!--MENU-->
     <string name="item_informacion">Información general</string>
     <string name="item_graficas">Gráficas</string>
     <string name="item_mapas">Mápa</string>
-    <string name="item_comando">Comandos</string>
+    <string name="item_comando">Commandos</string>
 
     <string name="Aviso">Aviso</string>
     <string name="mensaje_salir">¿Desea salir de la aplicación?</string>
+    <string name="mensaje_off_bluetooth">¿Desea apagar el dispositivo bluetooth</string>
+    <string name="mensaje_activar_bluetooth">El dispositivo bluetooth se encuentra apagado. ¿Desea activarlo?</string>
+    <string name="Conectando_">Conectando dispositivo...</string>
+    <string name="Bluetooth_disabled">Bluetooth apagado</string>
 </resources>

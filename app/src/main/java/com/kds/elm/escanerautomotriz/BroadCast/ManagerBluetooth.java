@@ -1,5 +1,6 @@
 package com.kds.elm.escanerautomotriz.BroadCast;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -71,8 +72,18 @@ public class ManagerBluetooth extends BroadcastReceiver {
         return false;
     }
 
-    public static boolean isBluetoothActive() {
+    public  boolean isBluetoothActive() {
         return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled();
+    }
+
+    public void OnDeviceBluetooth(){
+        Intent intent =new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        ((Activity)mContext).startActivityForResult(intent,1);
+    }
+
+
+    public void OffDeviceBluetooth(){
+         mBluetoothAdapter.disable();
     }
 
     public void setOnBluetoothListener(ManagerBluetoothInterface listener){

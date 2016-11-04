@@ -21,8 +21,5 @@ public class BroadCastBluetooth extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if(menuDrawer!= null){
-            menuDrawer.EstadoBluetooth();
-        }
     }
 }
