@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.kds.elm.escanerautomotriz.CustomViews.VelocimetroLinear;
 import com.kds.elm.escanerautomotriz.CustomViews.ViewGasolina;
-import com.kds.elm.escanerautomotriz.ActivityParent;
 import com.kds.elm.escanerautomotriz.R;
 
 /**

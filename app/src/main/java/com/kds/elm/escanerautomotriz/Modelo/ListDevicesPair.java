@@ -11,6 +11,7 @@ public class ListDevicesPair implements Parcelable {
 
     private String NombreDevice;
     private String MacDevice;
+    private String ClassDevice;
     private boolean isPaired;
 
 
@@ -30,6 +31,14 @@ public class ListDevicesPair implements Parcelable {
         MacDevice = macDevice;
     }
 
+    public String getClassDevice() {
+        return ClassDevice;
+    }
+
+    public void setClassDevice(String classDevice) {
+        ClassDevice = classDevice;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -39,18 +48,21 @@ public class ListDevicesPair implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.NombreDevice);
         dest.writeString(this.MacDevice);
+        dest.writeString(this.ClassDevice);
         dest.writeByte(this.isPaired ? (byte) 1 : (byte) 0);
     }
 
-    public ListDevicesPair(String nombreDevice, String macDevice, boolean isPaired) {
+    public ListDevicesPair(String nombreDevice, String macDevice,String classDevice,boolean isPaired) {
         NombreDevice = nombreDevice;
         MacDevice = macDevice;
+        ClassDevice = classDevice;
         this.isPaired = isPaired;
     }
 
     protected ListDevicesPair(Parcel in) {
         this.NombreDevice = in.readString();
         this.MacDevice = in.readString();
+        this.ClassDevice = in.readString();
         this.isPaired = in.readByte() != 0;
     }
 

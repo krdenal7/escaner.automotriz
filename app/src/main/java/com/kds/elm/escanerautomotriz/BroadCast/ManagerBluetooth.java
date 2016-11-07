@@ -1,6 +1,5 @@
 package com.kds.elm.escanerautomotriz.BroadCast;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -26,7 +25,7 @@ public class ManagerBluetooth extends BroadcastReceiver {
     private static IntentFilter mFilter;
     private static ManagerBluetooth mManager;
 
-    private static ArrayList<ListDevicesPair> mItemsDevices = new ArrayList<>();
+    private static ArrayList<ListDevicesPair> mItemsDevices;
     private static BluetoothAdapter mBluetoothAdapter;
 
     public static ManagerBluetooth  newInstance(Context context){
@@ -35,6 +34,7 @@ public class ManagerBluetooth extends BroadcastReceiver {
             mFilter = new IntentFilter();
             mContext = context;
             mManager = bluetooth;
+            mItemsDevices = new ArrayList<>();
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         }
         return mManager;
@@ -59,6 +59,7 @@ public class ManagerBluetooth extends BroadcastReceiver {
         mItemsDevices.add(new ListDevicesPair(
                 device.getName(),
                 device.getAddress(),
+                String.valueOf(device.getType()),
                 isPairedDevice(device.getAddress())
         ));
     }
@@ -77,10 +78,10 @@ public class ManagerBluetooth extends BroadcastReceiver {
     }
 
     public void OnDeviceBluetooth(){
-        Intent intent =new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        ((Activity)mContext).startActivityForResult(intent,1);
+        //Intent intent =new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        //((Activity)mContext).startActivityForResult(intent,1);
+        mBluetoothAdapter.enable();
     }
-
 
     public void OffDeviceBluetooth(){
          mBluetoothAdapter.disable();
@@ -95,6 +96,31 @@ public class ManagerBluetooth extends BroadcastReceiver {
     }
 
     public void UnRegisterReceiver(){
-        mContext.unregisterReceiver(mManager);
+        try {
+            mContext.unregisterReceiver(mManager);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
+
+    public void StartDiscovery(){
+
+    }
+
+    public void StopDiscovery(){
+
+    }
+
+    public ArrayList<ListDevicesPair> getListPairDevice(){
+        ArrayList<ListDevicesPair> list = new ArrayList<>();
+
+        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        for(BluetoothDevice bt : pairedDevices) {
+            ListDevicesPair pair = new ListDevicesPair(bt.getName(),bt.getAddress(),String.valueOf(bt.getType()),true);
+            list.add(pair);
+        }
+
+        return list;
+    }
+
 }

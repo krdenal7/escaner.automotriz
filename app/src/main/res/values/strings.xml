@@ -23,4 +23,10 @@
     <string name="mensaje_activar_bluetooth">El dispositivo bluetooth se encuentra apagado. ¿Desea activarlo?</string>
     <string name="Conectando_">Conectando dispositivo...</string>
     <string name="Bluetooth_disabled">Bluetooth apagado</string>
+    <string name="EncenderBluetooth">¿Desea encender el dispositivo bluetooth?</string>
+    <string name="Nosehaseleccionadodispositivo">No se ha seleccionado ningún dispositivo</string>
+    <string name="Aceptar">Aceptar</string>
+    <string name="Cancelar">Cancelar</string>
+    <string name="Selecciona_">Selecciona:</string>
+    <string name="Buscar">Buscar</string>
 </resources>

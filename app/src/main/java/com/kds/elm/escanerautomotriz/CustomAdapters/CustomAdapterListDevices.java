@@ -1,8 +1,5 @@
 package com.kds.elm.escanerautomotriz.CustomAdapters;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +11,6 @@ import com.kds.elm.escanerautomotriz.Modelo.ListDevicesPair;
 import com.kds.elm.escanerautomotriz.R;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by isaac on 09/07/2016.
@@ -23,18 +19,16 @@ import java.util.Set;
 public class CustomAdapterListDevices extends RecyclerView.Adapter<CustomAdapterListDevices.CustomHolder> {
 
     ArrayList<ListDevicesPair> mItemsDevices;
-    Context mContext;
-    CustomAdapterListDeviceListener listener;
-    BluetoothAdapter mBluetoothManager;
     private RadioButton mSelectedRB;
     private int mSelectedPosition = -1;
 
+    private OnCustomAdapterListDevListener listener;
+    private View[] itemView;
 
-    public CustomAdapterListDevices(ArrayList<ListDevicesPair> mItemsDevices, Context context, BluetoothAdapter mBluetoothManager) {
+
+    public CustomAdapterListDevices(ArrayList<ListDevicesPair> mItemsDevices) {
         this.mItemsDevices=mItemsDevices;
-        this.mContext=context;
-        this.mBluetoothManager=mBluetoothManager;
-
+        itemView = new View[mItemsDevices.size()];
     }
 
     @Override
@@ -56,9 +50,18 @@ public class CustomAdapterListDevices extends RecyclerView.Adapter<CustomAdapter
                 if(position != mSelectedPosition && mSelectedRB != null){
                     mSelectedRB.setChecked(false);
                 }
+                 int cont = 0;
+                 for (View item:itemView){
+                     if(cont != position){
+                         ((RadioButton)item).setChecked(false);
+                     }
+                     cont++;
+                 }
                 mSelectedPosition = position;
                 mSelectedRB = (RadioButton)view;
-                listener.OnPairedDevice(position,CheckPairedDevice(holder.txtMacAdress.getText().toString()));
+                if(listener != null){
+                    listener.OnItemCheck(position);
+                }
             }
 
         });
@@ -72,17 +75,7 @@ public class CustomAdapterListDevices extends RecyclerView.Adapter<CustomAdapter
             }
         }
 
-    }
-
-    private boolean CheckPairedDevice(String mac){
-        boolean resp=false;
-        Set<BluetoothDevice> devices=mBluetoothManager.getBondedDevices();
-        for (BluetoothDevice device:devices){
-            if(device.getAddress().equals(mac)){
-                resp=true;
-            }
-        }
-        return resp;
+        itemView[position] = holder.rbCheckdevice;
     }
 
     @Override
@@ -103,12 +96,19 @@ public class CustomAdapterListDevices extends RecyclerView.Adapter<CustomAdapter
         }
     }
 
-    public void setOnItemClickPairDecice(CustomAdapterListDeviceListener listener){
-        this.listener=listener;
+    public void setmSelectedPosition(int index){
+        this.mSelectedPosition = index;
     }
 
-    public interface CustomAdapterListDeviceListener{
-        void OnPairedDevice(int position,boolean isEmparejado);
+    public void setOnCustomApapterDevListener(OnCustomAdapterListDevListener listener){
+        this.listener = listener;
     }
+
+    public interface OnCustomAdapterListDevListener{
+
+        void OnItemCheck(int index);
+
+    }
+
 
 }

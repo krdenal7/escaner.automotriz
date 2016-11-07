@@ -1,11 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Selecciona_"
+        android:id="@+id/txtTitulo"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rv"
-        android:layout_alignParentBottom="true"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        tools:ignore="RtlHardcoded">
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCancelar"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/transparente"
+            android:text="@string/Cancelar"
+            android:gravity="center"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnBuscar"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/transparente"
+            android:text="@string/Buscar"
+            android:gravity="center"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAceptar"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/transparente"
+            android:text="@string/Aceptar"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+</ScrollView>
+
 
 
 
