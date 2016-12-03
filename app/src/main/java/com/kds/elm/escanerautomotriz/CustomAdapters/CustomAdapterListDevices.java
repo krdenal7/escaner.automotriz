@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.kds.elm.escanerautomotriz.Modelo.ListDevicesPair;
+import com.kds.elm.escanerautomotriz.model.DeviceBluetooth;
 import com.kds.elm.escanerautomotriz.R;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class CustomAdapterListDevices extends RecyclerView.Adapter<CustomAdapterListDevices.CustomHolder> {
 
-    ArrayList<ListDevicesPair> mItemsDevices;
+    ArrayList<DeviceBluetooth> mItemsDevices;
     private RadioButton mSelectedRB;
     private int mSelectedPosition = -1;
 
@@ -26,7 +26,7 @@ public class CustomAdapterListDevices extends RecyclerView.Adapter<CustomAdapter
     private View[] itemView;
 
 
-    public CustomAdapterListDevices(ArrayList<ListDevicesPair> mItemsDevices) {
+    public CustomAdapterListDevices(ArrayList<DeviceBluetooth> mItemsDevices) {
         this.mItemsDevices=mItemsDevices;
         itemView = new View[mItemsDevices.size()];
     }
@@ -39,7 +39,7 @@ public class CustomAdapterListDevices extends RecyclerView.Adapter<CustomAdapter
 
     @Override
     public void onBindViewHolder(final CustomHolder holder, final int position) {
-        final ListDevicesPair devices=mItemsDevices.get(position);
+        final DeviceBluetooth devices=mItemsDevices.get(position);
         holder.txtNombre.setText(devices.getNombreDevice()==null?"":devices.getNombreDevice());
         holder.txtMacAdress.setText(devices.getMacDevice()==null?"":devices.getMacDevice());
 

@@ -19,19 +19,19 @@
             android:title="@string/item_mapas" />
     </group>
 
-    <item android:title="Configuraciones">
+    <item android:title="@string/configuraciones">
         <menu>
             <item
                 android:id="@+id/accion_buscar"
                 android:icon="@drawable/ic_accion_buscar"
-                android:title="Seleccionar dispositivo"/>
+                android:title="@string/seleccionar_dispositivo"/>
             <item
                 android:id="@+id/accion_encender"
                 android:icon="@drawable/ic_accion_bluetooth_off"
-                android:title="Encender/Apagar" />
+                android:title="@string/encender_apagar" />
             <item android:id="@+id/accion_herramientas"
                 android:icon="@drawable/ic_accion_configuraciones"
-                android:title="Herramientas"/>
+                android:title="@string/herramientas"/>
         </menu>
     </item>
 

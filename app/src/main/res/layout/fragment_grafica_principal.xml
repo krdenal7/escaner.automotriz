@@ -20,11 +20,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0"
+            android:text="@string/_0"
             android:id="@+id/txtRPM"
             android:layout_marginTop="10dp"
             android:textColor="@color/colorLetraAzul"
-            android:textSize="90dp"
+            android:textSize="90sp"
             android:layout_weight="2"
             android:gravity="right" />
 
@@ -32,11 +32,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="RPM"
+            android:text="@string/rpm"
             android:id="@+id/txtTitleRpm"
             android:textColor="@color/colorLetraAzul"
             android:layout_marginLeft="10dp"
-            android:textSize="40dp"
+            android:textSize="40sp"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -53,12 +53,9 @@
         android:layout_marginTop="10dp">
 
         <android.support.v7.widget.CardView
-            android:layout_column="0"
-            android:layout_row="0"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             style="@style/CardViewStyle1"
-            android:layout_columnSpan="2"
             android:layout_weight="2">
 
             <LinearLayout
@@ -69,10 +66,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="VELOCIDAD"
+                    android:text="@string/velocidad"
                     android:id="@+id/txtTitVelocidad"
                     android:textColor="#fff"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_weight="5"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="2dp" />
@@ -80,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtVelocidad"
-                    android:text="0"
+                    android:text="@string/_0"
                     android:layout_gravity="bottom"
                     android:layout_weight="2"
                     android:gravity="right"
@@ -88,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="KM/h"
+                    android:text="@string/km_h"
                     android:layout_gravity="bottom"
                     android:layout_weight="0.2"
                     android:gravity="right"
@@ -105,8 +102,6 @@
             android:layout_weight="2">
 
             <android.support.v7.widget.CardView
-                android:layout_column="0"
-                android:layout_row="1"
                 android:layout_height="50dp"
                 style="@style/CardViewStyle1"
                 android:layout_columnWeight=".5"
@@ -126,8 +121,8 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="GASOLINA"
+                            android:layout_height="0dp"
+                            android:text="@string/gasolina"
                             android:textColor="#fff"
                             android:layout_weight="1"
                             android:layout_marginLeft="5dp"
@@ -136,7 +131,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Información no disponible"
+                            android:text="@string/informaci_n_no_disponible"
                             android:textColor="#fff"
                             android:layout_marginLeft="5dp"
                             android:visibility="gone" />
@@ -155,8 +150,6 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:layout_column="1"
-                android:layout_row="1"
                 android:layout_height="50dp"
                 style="@style/CardViewStyle1"
                 android:layout_columnWeight=".5"
@@ -170,7 +163,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Temperatura"
+                        android:text="@string/temperatura"
                         android:layout_weight="1"
                         android:textColor="#fff"
                         android:layout_marginLeft="2dp"
@@ -181,7 +174,8 @@
                         android:id="@+id/imgTermometro"
                         android:layout_weight="1"
                         android:src="@drawable/ic_termometro_frio"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:contentDescription="@string/imgDescripcion"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -206,7 +200,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Km/h recorridos"
+                        android:text="@string/km_h_recorridos"
                         android:textColor="#fff"
                         android:layout_marginLeft="2dp"
                         android:layout_marginTop="5dp" />
@@ -215,7 +209,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="0"
+                        android:text="@string/_0"
                         android:textColor="#fff"
                         android:id="@+id/txtKMrecorridos"
                         android:gravity="bottom|right"
@@ -238,7 +232,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Tiempo en movimiento"
+                        android:text="@string/tiempo_en_movimiento"
                         android:textColor="#fff"
                         android:layout_marginLeft="2dp"
                         android:layout_marginTop="5dp" />
@@ -247,7 +241,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="0"
+                        android:text="@string/_0"
                         android:textColor="#fff"
                         android:id="@+id/txtTiempoMovimiento"
                         android:gravity="bottom|right"

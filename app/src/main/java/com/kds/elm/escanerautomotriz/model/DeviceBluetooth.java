@@ -1,4 +1,4 @@
-package com.kds.elm.escanerautomotriz.Modelo;
+package com.kds.elm.escanerautomotriz.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by isaac on 09/07/2016.
  * APP's
  */
-public class ListDevicesPair implements Parcelable {
+public class DeviceBluetooth implements Parcelable {
 
     private String NombreDevice;
     private String MacDevice;
@@ -52,29 +52,29 @@ public class ListDevicesPair implements Parcelable {
         dest.writeByte(this.isPaired ? (byte) 1 : (byte) 0);
     }
 
-    public ListDevicesPair(String nombreDevice, String macDevice,String classDevice,boolean isPaired) {
+    public DeviceBluetooth(String nombreDevice, String macDevice, String classDevice, boolean isPaired) {
         NombreDevice = nombreDevice;
         MacDevice = macDevice;
         ClassDevice = classDevice;
         this.isPaired = isPaired;
     }
 
-    protected ListDevicesPair(Parcel in) {
+    protected DeviceBluetooth(Parcel in) {
         this.NombreDevice = in.readString();
         this.MacDevice = in.readString();
         this.ClassDevice = in.readString();
         this.isPaired = in.readByte() != 0;
     }
 
-    public static final Creator<ListDevicesPair> CREATOR = new Creator<ListDevicesPair>() {
+    public static final Creator<DeviceBluetooth> CREATOR = new Creator<DeviceBluetooth>() {
         @Override
-        public ListDevicesPair createFromParcel(Parcel source) {
-            return new ListDevicesPair(source);
+        public DeviceBluetooth createFromParcel(Parcel source) {
+            return new DeviceBluetooth(source);
         }
 
         @Override
-        public ListDevicesPair[] newArray(int size) {
-            return new ListDevicesPair[size];
+        public DeviceBluetooth[] newArray(int size) {
+            return new DeviceBluetooth[size];
         }
     };
 }

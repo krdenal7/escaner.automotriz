@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Selecciona_"
-        android:id="@+id/txtTitulo"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="20dp"
-        android:textSize="24sp"
-        android:textColor="@color/colorPrimaryDark" />
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/progressSearch"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/txtSarch"
+            android:text="@string/Buscando__"
+            android:gravity="center|left"/>
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/rv"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:id="@+id/rvSearch"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="right"
-        tools:ignore="RtlHardcoded">
+        android:gravity="right">
 
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
@@ -48,6 +55,7 @@
             android:textColor="@color/colorPrimary"
             android:background="@color/transparente"
             android:text="@string/Buscar"
+            android:visibility="gone"
             android:gravity="center"/>
 
         <android.support.v7.widget.AppCompatButton
@@ -61,13 +69,4 @@
 
     </LinearLayout>
 
-
 </LinearLayout>
-
-
-
-
-
-
-
-

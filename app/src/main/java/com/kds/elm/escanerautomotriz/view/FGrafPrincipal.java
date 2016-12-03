@@ -1,4 +1,4 @@
-package com.kds.elm.escanerautomotriz.Vistas;
+package com.kds.elm.escanerautomotriz.view;
 
 import android.app.Activity;
 import android.app.Fragment;

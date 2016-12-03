@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kds.elm.escanerautomotriz.Interfaces.DialogAlertInterface;
+import com.kds.elm.escanerautomotriz.Interfaces.IDialogAlert;
 import com.kds.elm.escanerautomotriz.R;
+import com.kds.elm.escanerautomotriz.model.Parcerables.ParceDialogAlert;
 
 /**
  * Created by Isaac Martinez on 29/10/2016.
@@ -28,7 +29,7 @@ public class DialogAlert extends DialogFragment implements View.OnClickListener 
 
     private String titulo, mensaje, btn1, btn2, btn3;
 
-    private DialogAlertInterface listener;
+    private IDialogAlert listener;
 
     public static DialogAlert newInstance(String titulo, String mensaje, String btn1, String btn2, String btn3) {
         Bundle bundle = new Bundle();
@@ -55,7 +56,7 @@ public class DialogAlert extends DialogFragment implements View.OnClickListener 
             this.btn3 = bundle.getString("btn3");
         }
         if(savedInstanceState != null){
-            DialogParcer parcer = savedInstanceState.getParcelable("listener");
+            ParceDialogAlert parcer = savedInstanceState.getParcelable("listener");
             if(parcer != null)
             listener = parcer.getDialogAlertInterface();
         }
@@ -106,7 +107,7 @@ public class DialogAlert extends DialogFragment implements View.OnClickListener 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("listener",new DialogParcer(listener));
+        outState.putParcelable("listener",new ParceDialogAlert(listener));
     }
 
     @Override
@@ -125,7 +126,7 @@ public class DialogAlert extends DialogFragment implements View.OnClickListener 
         }
     }
 
-    public void setOnDialogAlertListener(DialogAlertInterface listener) {
+    public void setOnDialogAlertListener(IDialogAlert listener) {
         this.listener = listener;
     }
 }

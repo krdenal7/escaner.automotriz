@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorDisable">#A3AFEE</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
@@ -8,4 +9,5 @@
     <color name="colorBackgroundCardView">#484444</color>
     <color name="colorLetraAzul">#2aa2ff</color>
     <color name="transparente">#00000000</color>
+    <color name="GrisLetra">#A4A4A4</color>
 </resources>

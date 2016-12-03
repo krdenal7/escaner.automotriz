@@ -7,7 +7,7 @@ import android.app.DialogFragment;
  * escaner.automotriz
  */
 
-public interface DialogAlertInterface  {
+public interface IDialogAlert {
     void OnClickAgree(DialogFragment dialogFragment);
     void OnClickDisagree(DialogFragment dialogFragment);
     void OnClickCancel(DialogFragment dialogFragment);

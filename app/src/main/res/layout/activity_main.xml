@@ -15,17 +15,18 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/imageView"
-            android:src="@drawable/scanner" />
+            android:src="@drawable/scanner"
+            android:contentDescription="@string/imgDescripcion"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="ESCANER AUTOMOTRIZ"
+            android:text="@string/escaner_automotriz"
             android:id="@+id/textView"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="32dp"
+            android:textSize="32sp"
             android:textColor="#9b9b9b" />
     </LinearLayout>
 

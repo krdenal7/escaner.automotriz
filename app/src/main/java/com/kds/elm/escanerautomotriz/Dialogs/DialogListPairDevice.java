@@ -12,10 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.kds.elm.escanerautomotriz.ActivityParent;
 import com.kds.elm.escanerautomotriz.CustomAdapters.CustomAdapterListDevices;
-import com.kds.elm.escanerautomotriz.Interfaces.DialogAlertInterface;
-import com.kds.elm.escanerautomotriz.Modelo.ListDevicesPair;
+import com.kds.elm.escanerautomotriz.Interfaces.IDialogAlertGeneric;
+import com.kds.elm.escanerautomotriz.model.DeviceBluetooth;
 import com.kds.elm.escanerautomotriz.R;
+import com.kds.elm.escanerautomotriz.model.Parcerables.ParseDialogGeneric;
 
 import java.util.ArrayList;
 
@@ -23,14 +25,14 @@ import java.util.ArrayList;
  * Created by Isaac on 05/11/2016.
  * APP's
  */
-public class DialogListPairDevice extends DialogFragment implements View.OnClickListener{
+public class DialogListPairDevice extends DialogFragment implements View.OnClickListener {
 
-    private ArrayList<ListDevicesPair> mAlItems;
+    private ArrayList<DeviceBluetooth> mAlItems;
     private int mSelectedIndex = -1;
-    private DialogAlertInterface listener;
+    private IDialogAlertGeneric listener;
 
     @SuppressLint("ValidFragment")
-    public DialogListPairDevice(ArrayList<ListDevicesPair> mAlItems) {
+    public DialogListPairDevice(ArrayList<DeviceBluetooth> mAlItems) {
         this.mAlItems = mAlItems;
     }
 
@@ -39,15 +41,16 @@ public class DialogListPairDevice extends DialogFragment implements View.OnClick
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.layout_list_devices,null,false);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.layout_list_devices, null, false);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mAlItems = savedInstanceState.getParcelableArrayList("mAlItems");
             mSelectedIndex = savedInstanceState.getInt("index");
-            DialogParcer parce = savedInstanceState.getParcelable("listener");
-            if(parce != null){
-                listener = parce.getDialogAlertInterface();
+
+            ParseDialogGeneric parce = savedInstanceState.getParcelable("listener");
+            if (parce != null) {
+                listener = parce.getListener();
             }
         }
 
@@ -60,17 +63,17 @@ public class DialogListPairDevice extends DialogFragment implements View.OnClick
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.rv);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
 
-        AppCompatButton btnCancelar = (AppCompatButton)view.findViewById(R.id.btnCancelar);
+        AppCompatButton btnCancelar = (AppCompatButton) view.findViewById(R.id.btnCancelar);
         btnCancelar.setOnClickListener(this);
-        AppCompatButton btnBuscar = (AppCompatButton)view.findViewById(R.id.btnBuscar);
+        AppCompatButton btnBuscar = (AppCompatButton) view.findViewById(R.id.btnBuscar);
         btnBuscar.setOnClickListener(this);
-        AppCompatButton btnAceptar = (AppCompatButton)view.findViewById(R.id.btnAceptar);
+        AppCompatButton btnAceptar = (AppCompatButton) view.findViewById(R.id.btnAceptar);
         btnAceptar.setOnClickListener(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -82,29 +85,31 @@ public class DialogListPairDevice extends DialogFragment implements View.OnClick
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("mAlItems",mAlItems);
-        outState.putInt("index",mSelectedIndex);
-        outState.putParcelable("listener",new DialogParcer(listener));
+        outState.putParcelableArrayList("mAlItems", mAlItems);
+        outState.putInt("index", mSelectedIndex);
+        outState.putParcelable("listener", new ParseDialogGeneric(listener));
     }
 
     @Override
     public void onClick(View view) {
-        if(listener != null){
-            switch (view.getId()){
+        if (listener != null) {
+            switch (view.getId()) {
                 case R.id.btnAceptar:
-                    listener.OnClickAgree(this);
+                    ((ActivityParent) getActivity()).SaveDeviceBluetooth(mAlItems.get(mSelectedIndex).getNombreDevice(),
+                            mAlItems.get(mSelectedIndex).getMacDevice());
+                    listener.OnClickAgree(this, mAlItems.get(mSelectedIndex));
                     break;
                 case R.id.btnBuscar:
-                    listener.OnClickDisagree(this);
+                    listener.OnClickDisagree(this, null);
                     break;
                 case R.id.btnCancelar:
-                    listener.OnClickCancel(this);
+                    listener.OnClickCancel(this, null);
                     break;
             }
         }
     }
 
-    public void setOnDialogListener(DialogAlertInterface listener){
+    public void setOnDialogListener(IDialogAlertGeneric listener) {
         this.listener = listener;
     }
 }

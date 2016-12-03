@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,15 +33,24 @@ import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.enums.ObdProtocols;
-import com.kds.elm.escanerautomotriz.BroadCast.ManagerBluetooth;
+import com.kds.elm.escanerautomotriz.Interfaces.IDialogAlertGeneric;
+import com.kds.elm.escanerautomotriz.Managers.ManagerBluetooth;
 import com.kds.elm.escanerautomotriz.Dialogs.DialogAlert;
 import com.kds.elm.escanerautomotriz.Dialogs.DialogListPairDevice;
-import com.kds.elm.escanerautomotriz.Interfaces.DialogAlertInterface;
-import com.kds.elm.escanerautomotriz.Interfaces.ManagerBluetoothInterface;
-import com.kds.elm.escanerautomotriz.Vistas.FGrafPrincipal;
+import com.kds.elm.escanerautomotriz.Dialogs.DialogSearchDevice;
+import com.kds.elm.escanerautomotriz.Interfaces.IDialogAlert;
+import com.kds.elm.escanerautomotriz.Interfaces.IDialogSearch;
+import com.kds.elm.escanerautomotriz.Interfaces.IManagerBluetooth;
+import com.kds.elm.escanerautomotriz.model.DeviceBluetooth;
+import com.kds.elm.escanerautomotriz.Util.Utils;
+import com.kds.elm.escanerautomotriz.view.FGrafPrincipal;
+
+import java.util.ArrayList;
 
 public class ActivityParent extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        ManagerBluetoothInterface {
+        IManagerBluetooth {
+
+    private String TAG = "TAG - "+ActivityParent.class.getSimpleName();
 
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -48,6 +59,10 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
 
     private ImageView imgSearchBluetooth;
     private TextView txtMensajeLoad;
+    private ProgressDialog mProgressDialod;
+
+    private DialogSearchDevice dialogSearchDevice;
+    private static ArrayList<DeviceBluetooth> mAlItemsDevices;
 
     Context mContext;
 
@@ -56,9 +71,12 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
 
     private BluetoothSocket mSocket;
 
-    private String TAG = getClass().getSimpleName();
 
     FGrafPrincipal fGrafPrincipal;
+
+    private boolean isShowMessageListPair = false;
+    private boolean isShowProgressDialog = false;
+    private boolean isDismissMessageSearch = false;
 
 
     @Override
@@ -76,8 +94,16 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
         ConfigDrawerLayout();
 
         if (savedInstanceState != null) {
-
-
+            isShowMessageListPair = savedInstanceState.getBoolean("isShowMessageListPair");
+            isShowProgressDialog = savedInstanceState.getBoolean("isShowProgressDialog");
+            if (savedInstanceState.containsKey("mAlItemsDevices"))
+                mAlItemsDevices = savedInstanceState.getParcelableArrayList("mAlItemsDevices");
+            if (isShowProgressDialog) {
+                MostrarProgressDialog();
+            }
+            if (getFragmentManager().findFragmentByTag("DialogSearch") instanceof DialogSearchDevice) {
+                dialogSearchDevice = (DialogSearchDevice) getFragmentManager().findFragmentByTag("DialogSearch");
+            }
         } else {
             if (!mBluetoothManager.isBluetoothActive())
                 MensajeBluetoothDesactivado();
@@ -106,37 +132,50 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
         fragmentManager.beginTransaction().replace(resource, fragment, fragment.getClass().getSimpleName()).commit();
     }
 
+    /**
+     * Inicializa los views
+     */
     private void InitViews() {
-        imgSearchBluetooth = (ImageView)findViewById(R.id.imgBluetoothSearch);
+        imgSearchBluetooth = (ImageView) findViewById(R.id.imgBluetoothSearch);
         txtMensajeLoad = (TextView) findViewById(R.id.txtLblLoad);
     }
 
+    /**
+     * anima el icono bluetooth
+     * @param start tru,false
+     */
     public void AnimatedIconBluetooth(boolean start) {
         if (start && animationBto == null) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(!getIdDeviceBluetooth().trim().isEmpty()) {
+                    if (!getIdDeviceBluetooth().trim().isEmpty()) {
                         if (imgSearchBluetooth != null) {
+                            txtMensajeLoad.setText(getString(R.string.Conectando_));
                             imgSearchBluetooth.setImageResource(0);
                             imgSearchBluetooth.setBackgroundResource(R.drawable.animation_icon_bluetooth);
                             animationBto = (AnimationDrawable) imgSearchBluetooth.getBackground();
                             animationBto.start();
                         }
-                    }else {
+                    } else {
                         imgSearchBluetooth.setImageResource(R.drawable.ic_bluetooth_black);
                         txtMensajeLoad.setText(getString(R.string.Nosehaseleccionadodispositivo));
                     }
                 }
             });
         } else if (animationBto != null) {
-            if(animationBto.isRunning())
-            animationBto.stop();
+            if (animationBto.isRunning())
+                animationBto.stop();
             else
                 animationBto = null;
         }
     }
 
+    /**
+     * cambia el icono del bluetooth dependiendo del estado
+     * @param enabled true, false
+     * @param animateImg true, false
+     */
     public void ChangeIconBluetooth(boolean enabled, boolean animateImg) {
         if (enabled) {
             txtMensajeLoad.setText(getString(R.string.Conectando_));
@@ -190,7 +229,12 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.accion_encender) {
             MensajeOnOffBluetooth();
         } else if (id == R.id.accion_buscar) {
-            MensajeListaPairDevice();
+            if (mBluetoothManager.isBluetoothActive()) {
+                MensajeListaPairDevice();
+            } else {
+                isShowMessageListPair = true;
+                MensajeBluetoothDesactivado();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -202,6 +246,10 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putBoolean("isShowMessageListPair", isShowMessageListPair);
+        outState.putBoolean("isShowProgressDialog", isShowProgressDialog);
+        if (mAlItemsDevices != null)
+            outState.putParcelableArrayList("mAlItemsDevices", new ArrayList<Parcelable>(mAlItemsDevices));
     }
 
     @Override
@@ -212,15 +260,13 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
     @Override
     protected void onResume() {
         super.onResume();
-        if(mBluetoothManager != null)
-            mBluetoothManager.RegisterReceiver();
+        mBluetoothManager.RegisterReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(mBluetoothManager != null)
-            mBluetoothManager.UnRegisterReceiver();
+        mBluetoothManager.UnRegisterReceiver();
     }
 
     private boolean ConnectSocketBluetooth(int position) {
@@ -337,29 +383,6 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
 
     }
 
-    private void PairDevice(String mac) {
-       /* try {
-            BluetoothDevice device = mBluetoothApapter.getRemoteDevice(mac);
-            Method method = device.getClass().getMethod("createBond", (Class[]) null);
-            method.invoke(device, (Object[]) null);
-        } catch (Exception e) {
-            DimisLoadScreen();
-            Toast.makeText(mContext, "Ocurrio un error mientras se intentaba conectar al dispositivo", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }*/
-    }
-
-    private void BuscarNuevosDispositivos() {
-
-       /* if (isEnabledBluetooth) {
-            mBluetoothApapter.startDiscovery();
-        } else {
-            ShowBluetoothEnabled();
-        }*/
-    }
-
-
-
     /**
      * Bloquea la pantalla mientras esta cargago algún evento
      */
@@ -402,19 +425,26 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
     }
 
 
-    /*GUARDA LA INFORMACIÓN DEL ESCANER SELECCIONADO*/
-
-    public void SaveDeviceBluetooth(String name,String mac){
-        SharedPreferences preferences = getSharedPreferences("DeviceBluetooth",MODE_PRIVATE);
+    /**
+     *  Guarda la información del dispositivo bluetooth seleccionado
+     * @param name  nombre del dispositivo
+     * @param mac  dirección mac
+     */
+    public void SaveDeviceBluetooth(String name, String mac) {
+        SharedPreferences preferences = getSharedPreferences("DeviceBluetooth", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("Nombre",name);
-        editor.putString("Mac",mac);
+        editor.putString("Nombre", name);
+        editor.putString("Mac", mac);
         editor.commit();
     }
 
-    public String getIdDeviceBluetooth(){
-        SharedPreferences preference = getSharedPreferences("DeviceBluetooth",MODE_PRIVATE);
-         return preference.getString("Mac","");
+    /**
+     * Obtiene la dirección mac del dispositivo que se selecciono como escaner
+     * @return  direccion mac, empty si aun no se elige el dispositivo
+     */
+    public String getIdDeviceBluetooth() {
+        SharedPreferences preference = getSharedPreferences("DeviceBluetooth", MODE_PRIVATE);
+        return preference.getString("Mac", "");
     }
 
 
@@ -422,12 +452,72 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
 
     /**
      * Este evento se llama cuando el dispositivo detecta un cambio en el estado del dispositivo bluetooth
+     *
      * @param isActive true (Encendido) false (Apagado)
      */
     @Override
     public void OnStateBluetoothChange(boolean isActive) {
         ChangeStateIcon(isActive);
-        ChangeIconBluetooth(isActive,true);
+        ChangeIconBluetooth(isActive, true);
+        if (isShowProgressDialog && isActive) {
+            isShowProgressDialog = false;
+            if (mProgressDialod != null) {
+                if (mProgressDialod.isShowing()) {
+                    mProgressDialod.dismiss();
+                }
+            }
+        }
+        if (isShowMessageListPair && isActive) {
+            isShowMessageListPair = false;
+            MensajeListaPairDevice();
+        }
+    }
+
+    @Override
+    public void OnStartDiscovery() {
+        ShowToast("START", Toast.LENGTH_LONG);
+        mAlItemsDevices = new ArrayList<>();
+        dialogSearchDevice.setIsSearch(true);
+        dialogSearchDevice.OnEnabledButtonAceptar(false);
+        dialogSearchDevice.OnChangeStartedDiscovery(true);
+        dialogSearchDevice.ChangeStyleTextView(true);
+    }
+
+    @Override
+    public void OnStopDiscovery() {
+        ShowToast("FINISH", Toast.LENGTH_LONG);
+        if (!isDismissMessageSearch) {
+            dialogSearchDevice.setIsSearch(false);
+            dialogSearchDevice.OnChangeStartedDiscovery(false);
+            dialogSearchDevice.ChangeStyleTextView(false);
+            isDismissMessageSearch = false;
+        }
+    }
+
+    @Override
+    public void OnDeviceFound(DeviceBluetooth device) {
+        dialogSearchDevice.OnEnabledButtonAceptar(true);
+        if (mAlItemsDevices != null) {
+            if(Utils.ValidaItemDevice(mAlItemsDevices,device)) {
+                mAlItemsDevices.add(device);
+                dialogSearchDevice.OnDataChange();
+            }
+        }
+    }
+
+    @Override
+    public void OnBonding(BluetoothDevice device) {
+
+    }
+
+    @Override
+    public void OnBondend(BluetoothDevice device) {
+
+    }
+
+    @Override
+    public void OnBondend_none(BluetoothDevice device) {
+
     }
 
     /*MENSAJES*/
@@ -436,10 +526,11 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
      * Se muestra par confirmar si se desea cerrar la aplicación
      */
     public void MensajeSalir() {
-        MostrarAlerta(getString(R.string.Aviso), getString(R.string.mensaje_salir), "Si", "No", null, true, new DialogAlertInterface() {
+        MostrarAlerta(getString(R.string.Aviso), getString(R.string.mensaje_salir), "Si", "No", null, true, new IDialogAlert() {
             @Override
             public void OnClickAgree(DialogFragment dialogFragment) {
                 dialogFragment.dismiss();
+                mBluetoothManager.UnRegisterReceiver();
                 finish();
             }
 
@@ -461,7 +552,7 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
      */
     public void MensajeOnOffBluetooth() {
         if (mBluetoothManager.isBluetoothActive()) {
-            MostrarAlerta("Aviso", getString(R.string.mensaje_off_bluetooth), "Si", "No", null, true, new DialogAlertInterface() {
+            MostrarAlerta("Aviso", getString(R.string.mensaje_off_bluetooth), "Si", "No", null, true, new IDialogAlert() {
                 @Override
                 public void OnClickAgree(DialogFragment dialogFragment) {
                     dialogFragment.dismiss();
@@ -479,11 +570,12 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
                 }
             });
         } else {
-            MostrarAlerta("Aviso", getString(R.string.EncenderBluetooth), "Si", "No", null, true, new DialogAlertInterface() {
+            MostrarAlerta("Aviso", getString(R.string.EncenderBluetooth), "Si", "No", null, true, new IDialogAlert() {
                 @Override
                 public void OnClickAgree(DialogFragment dialogFragment) {
                     dialogFragment.dismiss();
                     mBluetoothManager.OnDeviceBluetooth();
+                    MostrarProgressDialog();
                 }
 
                 @Override
@@ -504,11 +596,12 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
      * Este mensaje se muestra al iniciar la aplicación y validar que el dispositivo bluetooth este desactivado
      */
     public void MensajeBluetoothDesactivado() {
-        MostrarAlerta("Aviso", getString(R.string.mensaje_activar_bluetooth), "Si", "No", null, true, new DialogAlertInterface() {
+        MostrarAlerta("Aviso", getString(R.string.mensaje_activar_bluetooth), "Si", "No", null, true, new IDialogAlert() {
             @Override
             public void OnClickAgree(DialogFragment dialogFragment) {
                 dialogFragment.dismiss();
                 mBluetoothManager.OnDeviceBluetooth();
+                MostrarProgressDialog();
             }
 
             @Override
@@ -523,31 +616,119 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
         });
     }
 
-    public void MensajeListaPairDevice(){
-        DialogListPairDevice dialog = new DialogListPairDevice(mBluetoothManager.getListPairDevice());
-        dialog.setOnDialogListener(new DialogAlertInterface() {
+    /**
+     * Muestra alert con los dispositivos que ya se encuentran vinculados al teléfono
+     */
+    public void MensajeListaPairDevice() {
+        ArrayList<DeviceBluetooth> list = mBluetoothManager.getListPairDevice();
+        if (list.size() > 0) {
+            DialogListPairDevice dialog = new DialogListPairDevice(list);
+            dialog.setOnDialogListener(new IDialogAlertGeneric() {
+                @Override
+                public void OnClickAgree(DialogFragment dialogFragment,Object object) {
+                    //Todo evento para conectar socket
+                    dialogFragment.dismiss();
+                    AnimatedIconBluetooth(true);
+                    Toast.makeText(ActivityParent.this,"Valor"+object,Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void OnClickDisagree(DialogFragment dialogFragment,Object object) {
+                    //TODO metodo para buscar
+                    dialogFragment.dismiss();
+                    MostrarMensajeSearchDevice();
+                }
+
+                @Override
+                public void OnClickCancel(DialogFragment dialogFragment,Object object) {
+                    dialogFragment.dismiss();
+                }
+            });
+            dialog.show(getFragmentManager(), "DialogPair");
+        } else {
+            MostrarMensajeNotDevice();
+        }
+    }
+
+    /**
+     * Muestra progress durante el tiempo que tarda en encenderse el bluetooth
+     */
+    private void MostrarProgressDialog() {
+        isShowProgressDialog = true;
+        mProgressDialod = ProgressDialog.show(this, "Aviso", getString(R.string.Activandobluetooth_), true, false);
+    }
+
+    /**
+     * Muestra el mensaje para realizar una busqueda de los dispositivos cercanos
+     */
+    private void MostrarMensajeSearchDevice() {
+        dialogSearchDevice = new DialogSearchDevice();
+        dialogSearchDevice.setCancelable(false);
+        dialogSearchDevice.setOnDialogSearchListener(new IDialogSearch() {
+
+            @Override
+            public void OnClickAceptar(DialogFragment dialogFragment, DeviceBluetooth device) {
+                dialogFragment.dismiss();
+                SaveDeviceBluetooth(device.getNombreDevice(),device.getMacDevice());
+                mBluetoothManager.PairingDevice(device.getMacDevice());
+            }
+
+            @Override
+            public void OnClickBuscar() {
+                mAlItemsDevices = new ArrayList<>();
+                dialogSearchDevice.OnDataChange();
+                mBluetoothManager.StartDiscovery();
+            }
+
+            @Override
+            public void OnClickCancelar(DialogFragment dialogFragment) {
+                dialogFragment.dismiss();
+                isDismissMessageSearch = true;
+                mAlItemsDevices = null;
+                mBluetoothManager.StopDiscovery();
+            }
+
+            @Override
+            public void OnFinishCreated() {
+                mBluetoothManager.StartDiscovery();
+            }
+
+            @Override
+            public ArrayList<DeviceBluetooth> OnDataChangeDevice() {
+                return mAlItemsDevices;
+            }
+        });
+        dialogSearchDevice.show(getFragmentManager(), "DialogSearch");
+    }
+
+    /**
+     * Muestra notificación informandole al usuario que no existe ningún dispositivo vinculado
+     */
+    private void MostrarMensajeNotDevice() {
+        MostrarAlerta("Aviso", getString(R.string.NohayDispositivosEmparejados), "Si", "No", null, true, new IDialogAlert() {
             @Override
             public void OnClickAgree(DialogFragment dialogFragment) {
-                //TODO metodo para conectarse
+                dialogFragment.dismiss();
+                MostrarMensajeSearchDevice();
             }
 
             @Override
             public void OnClickDisagree(DialogFragment dialogFragment) {
-                //TODO metodo para buscar
+                dialogFragment.dismiss();
             }
 
             @Override
             public void OnClickCancel(DialogFragment dialogFragment) {
-                dialogFragment.dismiss();
+
             }
         });
-        dialog.show(getFragmentManager(),"DialogPair");
     }
+
 
     /*ConfigDialogAlert*/
 
     public void MostrarAlerta(String titulo, String mensaje, boolean Cancelable) {
-        MostrarAlerta(titulo, mensaje, "Aceptar", null, null, Cancelable, new DialogAlertInterface() {
+        MostrarAlerta(titulo, mensaje, "Aceptar", null, null, Cancelable, new IDialogAlert() {
             @Override
             public void OnClickAgree(DialogFragment dialogFragment) {
                 dialogFragment.dismiss();
@@ -566,7 +747,7 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
     }
 
     public void MostrarAlerta(String mensaje, boolean Cancelable) {
-        MostrarAlerta(null, mensaje, "Aceptar", null, null, Cancelable, new DialogAlertInterface() {
+        MostrarAlerta(null, mensaje, "Aceptar", null, null, Cancelable, new IDialogAlert() {
             @Override
             public void OnClickAgree(DialogFragment dialogFragment) {
                 dialogFragment.dismiss();
@@ -595,7 +776,7 @@ public class ActivityParent extends AppCompatActivity implements NavigationView.
      * @param Cancelable     true o false
      * @param alertInterface eventos de los botones.
      */
-    public void MostrarAlerta(String titulo, String mensaje, String btn1, String btn2, String btn3, boolean Cancelable, DialogAlertInterface alertInterface) {
+    public void MostrarAlerta(String titulo, String mensaje, String btn1, String btn2, String btn3, boolean Cancelable, IDialogAlert alertInterface) {
         DialogAlert alert = DialogAlert.newInstance(titulo, mensaje, btn1, btn2, btn3);
         alert.setCancelable(Cancelable);
         alert.setOnDialogAlertListener(alertInterface);

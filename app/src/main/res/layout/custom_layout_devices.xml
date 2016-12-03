@@ -27,14 +27,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Nombre dispositivo"
+                android:text="@string/nombre_dispositivo"
                 android:id="@+id/txtDeviceNombre" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Mac adress"
+                android:text="@string/mac_adress"
                 android:id="@+id/txtDeviceMac" />
         </LinearLayout>
     </LinearLayout>

@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,7 +29,7 @@
         <activity android:name=".GraficaGeneral.ControladorGraficaGeneral"
             android:label="GraficaGeneral"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <receiver android:name=".BroadCast.ManagerBluetooth">
+        <!--<receiver android:name=".BroadCast.ManagerBluetooth">
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
                 <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
@@ -36,8 +37,9 @@
                 <action android:name="android.bluetooth.adapter.action.ACTION_DISCOVERY_FINISHED"/>
                 <action android:name="android.bluetooth.adapter.action.ACTION_BOND_STATE_CHANGED"/>
                 <action android:name="android.bluetooth.adapter.action.ACTION_PAIRING_REQUEST"/>
+                <action android:name="android.bluetooth.device.action.ACTION_FOUND"/>
             </intent-filter>
-        </receiver>
+        </receiver>-->
     </application>
 
 </manifest>

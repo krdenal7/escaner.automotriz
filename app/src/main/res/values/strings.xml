@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Escaner</string>
-    <string name="title_activity_menu_drawer">MenuDrawer</string>
+    <string name="title_activity_menu_drawer">ODBII</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Cerrar menu</string>
     <string name="action_settings">Settings</string>
@@ -10,6 +10,8 @@
     <string name="Titulo">Titulo</string>
     <string name="label_menu">Escaner automotriz</string>
     <string name="imgDescripcion">Descripcion</string>
+
+    <string name="deploy_mode">0</string> <!--0: Debug 1:release-->
 
     <!--MENU-->
     <string name="item_informacion">Información general</string>
@@ -21,7 +23,7 @@
     <string name="mensaje_salir">¿Desea salir de la aplicación?</string>
     <string name="mensaje_off_bluetooth">¿Desea apagar el dispositivo bluetooth</string>
     <string name="mensaje_activar_bluetooth">El dispositivo bluetooth se encuentra apagado. ¿Desea activarlo?</string>
-    <string name="Conectando_">Conectando dispositivo...</string>
+    <string name="Conectando_">Conectando dispositivo…</string>
     <string name="Bluetooth_disabled">Bluetooth apagado</string>
     <string name="EncenderBluetooth">¿Desea encender el dispositivo bluetooth?</string>
     <string name="Nosehaseleccionadodispositivo">No se ha seleccionado ningún dispositivo</string>
@@ -29,4 +31,24 @@
     <string name="Cancelar">Cancelar</string>
     <string name="Selecciona_">Selecciona:</string>
     <string name="Buscar">Buscar</string>
+    <string name="Activandobluetooth_">Activando bluetooth…</string>
+    <string name="Buscando__">Buscarndo…</string>
+    <string name="BuscarNuevamente">Buscar nuevamente</string>
+    <string name="NohayDispositivosEmparejados">No hay ningún dispositivo vinculado. ¿Desea realizar una búsqueda?</string>
+    <string name="configuraciones">Configuraciones</string>
+    <string name="seleccionar_dispositivo">Seleccionar dispositivo</string>
+    <string name="encender_apagar">Encender/Apagar</string>
+    <string name="herramientas">Herramientas</string>
+    <string name="_0">0</string>
+    <string name="escaner_automotriz">ESCANER AUTOMOTRIZ</string>
+    <string name="rpm">RPM</string>
+    <string name="mac_adress">Mac address</string>
+    <string name="velocidad">VELOCIDAD</string>
+    <string name="km_h">KM/h</string>
+    <string name="gasolina">GASOLINA</string>
+    <string name="informaci_n_no_disponible">Información no disponible</string>
+    <string name="temperatura">Temperatura</string>
+    <string name="km_h_recorridos">Km/h recorridos</string>
+    <string name="tiempo_en_movimiento">Tiempo en movimiento</string>
+    <string name="nombre_dispositivo">Nombre dispositivo</string>
 </resources>

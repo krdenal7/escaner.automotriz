@@ -1,5 +1,6 @@
 package com.kds.elm.escanerautomotriz.CustomViews;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,7 +29,7 @@ public class ViewGasolina extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Paint paint=new Paint();
+        @SuppressLint("DrawAllocation") Paint paint=new Paint();
 
         paint.setStrokeWidth(6);
 
