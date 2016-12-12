@@ -59,6 +59,9 @@ public class DeviceBluetooth implements Parcelable {
         this.isPaired = isPaired;
     }
 
+    public DeviceBluetooth() {
+    }
+
     protected DeviceBluetooth(Parcel in) {
         this.NombreDevice = in.readString();
         this.MacDevice = in.readString();

@@ -10,4 +10,6 @@
     <color name="colorLetraAzul">#2aa2ff</color>
     <color name="transparente">#00000000</color>
     <color name="GrisLetra">#A4A4A4</color>
+    <color name="naranja_default">#FF8000</color>
+    <color name="blanco">#fff</color>
 </resources>

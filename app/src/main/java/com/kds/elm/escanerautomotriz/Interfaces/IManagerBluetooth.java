@@ -17,4 +17,6 @@ public interface IManagerBluetooth {
     void OnBonding(BluetoothDevice device);
     void OnBondend(BluetoothDevice device);
     void OnBondend_none(BluetoothDevice device);
+    void OnConnectedDevice(Boolean isConnected,DeviceBluetooth deviceBluetooth);
+    void OnDisconnectedDevice(DeviceBluetooth deviceBluetooth);
 }

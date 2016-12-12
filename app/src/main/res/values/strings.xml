@@ -24,6 +24,7 @@
     <string name="mensaje_off_bluetooth">¿Desea apagar el dispositivo bluetooth</string>
     <string name="mensaje_activar_bluetooth">El dispositivo bluetooth se encuentra apagado. ¿Desea activarlo?</string>
     <string name="Conectando_">Conectando dispositivo…</string>
+    <string name="Conectando_con">Conectando con </string>
     <string name="Bluetooth_disabled">Bluetooth apagado</string>
     <string name="EncenderBluetooth">¿Desea encender el dispositivo bluetooth?</string>
     <string name="Nosehaseleccionadodispositivo">No se ha seleccionado ningún dispositivo</string>
@@ -35,6 +36,7 @@
     <string name="Buscando__">Buscarndo…</string>
     <string name="BuscarNuevamente">Buscar nuevamente</string>
     <string name="NohayDispositivosEmparejados">No hay ningún dispositivo vinculado. ¿Desea realizar una búsqueda?</string>
+    <string name="Nohaydispositivosvinculados">No hay dispositivos vinculados.</string>
     <string name="configuraciones">Configuraciones</string>
     <string name="seleccionar_dispositivo">Seleccionar dispositivo</string>
     <string name="encender_apagar">Encender/Apagar</string>
@@ -51,4 +53,6 @@
     <string name="km_h_recorridos">Km/h recorridos</string>
     <string name="tiempo_en_movimiento">Tiempo en movimiento</string>
     <string name="nombre_dispositivo">Nombre dispositivo</string>
+    <string name="Conectando___">Conectando…</string>
+    <string name="Dispositivodesconectado">Dispositivo desconectado</string>
 </resources>
